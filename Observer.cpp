@@ -105,14 +105,21 @@ int main() {
 	ApplicationManager* appManager3 = new ApplicationManager("Manager 3");
 
 	UpdateManager* netflixUpdateManager = new UpdateManager("Netflix");
+	UpdateManager* spotifyUpdateManager = new UpdateManager("Spotify");
 
 	netflixUpdateManager->Attach(appManager);
 	netflixUpdateManager->Attach(appManager2);
 	netflixUpdateManager->Attach(appManager3);
 
-	
+	spotifyUpdateManager->Attach(appManager);
+	spotifyUpdateManager->Attach(appManager2);
 
 	netflixUpdateManager->updateApp("2.0");
+	spotifyUpdateManager->updateApp("2.0");
+
+	netflixUpdateManager->Detach(appManager2);
+
+	netflixUpdateManager->updateApp("3.0");
 
 
 }

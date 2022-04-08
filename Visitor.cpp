@@ -174,6 +174,21 @@ class VideoPlayer : public MediaPlayer {
 	// this class can override play methods, but in this case it use default versions.
 };
 
+class anotherVideoPlayer : public MediaPlayer {
+	// this video player uses different algorithms for display MOV and M4V videos.
+
+	void PlayMOVVideo(MOVVideo* movVideo) {
+		cout << "This video player uses different algorithm for display MOV videos \n";
+		cout << "MOV videos are smoother in this video player \n";
+		cout << "***********************************************\n";
+	}
+
+	void PlayM4VVideo(M4VVideo* m4vVideo) {
+		cout << "This video player uses different algorithm for display M4V videos \n";
+		cout << "M4V videos are smoother in this video player \n";
+		cout << "***********************************************\n";
+	}
+};
 
 void ApplicationManager::runVideo(string videoName) {
 	list<Video*>::iterator it;
@@ -198,6 +213,8 @@ void ApplicationManager::setMediaPlayer(MediaPlayer* mediaPlayer) {
 
 	this->mediaPlayer = mediaPlayer;
 }
+
+
 
 int main() {
 
@@ -224,5 +241,5 @@ int main() {
 	applicationManager->runVideo("Iron_Man.m4v");
 	applicationManager->runVideo("Avengers.avi");
 
-
 }
+

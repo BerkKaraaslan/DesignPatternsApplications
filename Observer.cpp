@@ -47,18 +47,18 @@ public:
 class UpdateManager { // every UpdateManager corresponds to update manager of some app. ex: Netflix,Youtube
 
 public:
-	UpdateManager(string name) { // bu isim ile app olustur
+	UpdateManager(string name) {
 
 		App = new Application(name);
 		App->setVersion("1.0"); // Initial version
 
 	}
-	string appName;
+
 	Application* App;
 	virtual void Attach(ApplicationManager*);
 	virtual void Detach(ApplicationManager*);
 	virtual void Notify();
-	virtual void updateApp(string newVersion); // bu metot her cagirildiginda notify yapilacak
+	virtual void updateApp(string newVersion);
 	
 
 private:
@@ -95,21 +95,56 @@ void ApplicationManager::displayLatestAppVersion(UpdateManager* appUpdateManager
 
 
 
+class ConcreteApplicationManager : public ApplicationManager {
 
+public:
+
+	ConcreteApplicationManager(string appManagerName) : ApplicationManager(appManagerName) {}
+		
+};
+
+class anotherConcreteApplicationManager : public ApplicationManager {
+
+public:
+
+	anotherConcreteApplicationManager(string appManagerName) : ApplicationManager(appManagerName) {}
+
+};
+
+class ConcreteUpdateManager : public UpdateManager {
+
+public:
+
+	ConcreteUpdateManager(string name) : UpdateManager(name) {}
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 int main() {
 
+	ApplicationManager* appManager = new ConcreteApplicationManager("TV Manager 1");
+	ApplicationManager* appManager2 = new ConcreteApplicationManager("TV Manager 2");
+	ApplicationManager* appManager3 = new anotherConcreteApplicationManager("TV Manager 3");
+	ApplicationManager* appManager4 = new anotherConcreteApplicationManager("TV Manager 4");
 
-
-	ApplicationManager* appManager = new ApplicationManager("Manager 1");
-	ApplicationManager* appManager2 = new ApplicationManager("Manager 2");
-	ApplicationManager* appManager3 = new ApplicationManager("Manager 3");
-
-	UpdateManager* netflixUpdateManager = new UpdateManager("Netflix");
-	UpdateManager* spotifyUpdateManager = new UpdateManager("Spotify");
+	UpdateManager* netflixUpdateManager = new ConcreteUpdateManager("Netflix");
+	UpdateManager* spotifyUpdateManager = new ConcreteUpdateManager("Spotify");
 
 	netflixUpdateManager->Attach(appManager);
 	netflixUpdateManager->Attach(appManager2);
 	netflixUpdateManager->Attach(appManager3);
+	netflixUpdateManager->Attach(appManager4);
 
 	spotifyUpdateManager->Attach(appManager);
 	spotifyUpdateManager->Attach(appManager2);
@@ -121,5 +156,7 @@ int main() {
 
 	netflixUpdateManager->updateApp("3.0");
 
-
 }
+
+*/
+

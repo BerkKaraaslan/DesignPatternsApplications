@@ -13,7 +13,7 @@ class ApplicationManager {
 public:
 	
 	
-	virtual void runApplication(string name); // isim ile applications da arayip buldugunu calistiracak
+	virtual void runApplication(string name);
 
 	virtual void updateImplementation(string appName, ApplicationImplementor* implementation);
 
@@ -107,21 +107,50 @@ void ApplicationAbstraction::run() {
 		implementation->runApp(name);
 }
 
-int main() {
 
+
+class RefinedApplicationAbstraction : public ApplicationAbstraction {
+public:
+	RefinedApplicationAbstraction(string applicationName) : ApplicationAbstraction(applicationName) {}
+};
+
+
+class ConcreteApplicationImplementor : public ApplicationImplementor {
+public:
+	ConcreteApplicationImplementor(string info) : ApplicationImplementor(info) {}
+};
+
+class anotherConcreteApplicationImplementor : public ApplicationImplementor {
+public:
+	string additionalInfo;
+	anotherConcreteApplicationImplementor(string info, string additional_info) : ApplicationImplementor(info) {
+		additionalInfo = additional_info;
+	}
+
+	virtual void runApp(string applicationName);
+
+};
+
+void anotherConcreteApplicationImplementor::runApp(string applicationName) {
+	cout << "App " + applicationName + "  is running with implementation info: " + implementationInfo + " and some additional info: " + additionalInfo + "\n";
+	cout << "***********************************************\n";
+
+}
+
+
+
+/*
+
+int main() {
 	ApplicationManager* applicationManager = new ApplicationManager();
 
-	ApplicationAbstraction* netflixAbstraction = new ApplicationAbstraction("Netflix");
+	ApplicationAbstraction* netflixAbstraction = new RefinedApplicationAbstraction("Netflix");
+	ApplicationAbstraction* amazonPrimeAbstraction = new RefinedApplicationAbstraction("Amazon Prime");
+	ApplicationAbstraction* youtubeAbstraction = new RefinedApplicationAbstraction("Youtube");
 
-	ApplicationAbstraction* amazonPrimeAbstraction = new ApplicationAbstraction("Amazon Prime");
-
-	ApplicationAbstraction* youtubeAbstraction = new ApplicationAbstraction("Youtube");
-
-	ApplicationImplementor* netflixImplementor = new ApplicationImplementor("This is first version of Netflix");
-
-	ApplicationImplementor* amazonPrimeImplementor = new ApplicationImplementor("This is first version of Amazon Prime");
-
-	ApplicationImplementor* youtubeImplementor = new ApplicationImplementor("This is first version of Youtube");
+	ApplicationImplementor* netflixImplementor = new ConcreteApplicationImplementor("This is first version of Netflix");
+	ApplicationImplementor* amazonPrimeImplementor = new ConcreteApplicationImplementor("This is first version of Amazon Prime");
+	ApplicationImplementor* youtubeImplementor = new ConcreteApplicationImplementor("This is first version of Youtube");
 
 	applicationManager->addApplication(netflixAbstraction);
 	applicationManager->addApplication(amazonPrimeAbstraction);
@@ -135,11 +164,9 @@ int main() {
 	applicationManager->runApplication("Amazon Prime");
 	applicationManager->runApplication("Youtube");
 
-	ApplicationImplementor* netflixImplementor_2 = new ApplicationImplementor("This is second version of Netflix! Now Netflix contains a lot of extra features.");
-
-	ApplicationImplementor* amazonPrimeImplementor_2 = new ApplicationImplementor("This is second version of Amazon Prime! Now Amazon Prime contains a lot of extra features.");
-
-	ApplicationImplementor* youtubeImplementor_2 = new ApplicationImplementor("This is second version of Youtube! Now Youtube contains a lot of extra features.");
+	ApplicationImplementor* netflixImplementor_2 = new anotherConcreteApplicationImplementor("This is second version of Netflix!", "Now Netflix contains a lot of extra features.");
+	ApplicationImplementor* amazonPrimeImplementor_2 = new anotherConcreteApplicationImplementor("This is second version of Amazon Prime!", "Now Amazon Prime contains a lot of extra features.");
+	ApplicationImplementor* youtubeImplementor_2 = new anotherConcreteApplicationImplementor("This is second version of Youtube!", "Now Youtube contains a lot of extra features.");
 
 	applicationManager->updateImplementation("Netflix", netflixImplementor_2);
 	applicationManager->updateImplementation("Amazon Prime", amazonPrimeImplementor_2);
@@ -148,5 +175,6 @@ int main() {
 	applicationManager->runApplication("Netflix");
 	applicationManager->runApplication("Amazon Prime");
 	applicationManager->runApplication("Youtube");
-
 }
+
+*/

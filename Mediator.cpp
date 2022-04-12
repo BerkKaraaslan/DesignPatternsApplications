@@ -111,13 +111,14 @@ void ApplicationManagementAndControlSystem::terminateApplication(string appName,
 void ApplicationManagementAndControlSystem::computeApplicationUsageTime(string appName, int commandDevicePriority, string deviceName) {
 
 	appExecutionSystem->getApplicationUsageTime(appName, deviceName);
-	//return application_usage_time;
 }
 
 void ApplicationManagementAndControlSystem::setAppExecutionSystem(ApplicationExecutionSystem* newAppExecutionSystem) {
 
 	appExecutionSystem = newAppExecutionSystem;
 }
+
+
 
 
 class TVExecutive : public ApplicationManagementAndControlSystem { // This Mediator uses all methods of super class "ApplicationManagementAndControlSystem"
@@ -135,8 +136,8 @@ class AnotherTVExecutive : public ApplicationManagementAndControlSystem { // Thi
 void AnotherTVExecutive::startApplication(string appName, int commandDevicePriority, string deviceName) {
 
 	string additional_info = "This TV Executive coordinates communication of objects in different way. If command device priority is less than 100 then the request of this device will not executed. \n";
-	string positive = "This request was accepted because device priority is not less than 20 \n";
-	string negative = "This request was not accepted because device priority is less than 20 \n";
+	string positive = "This request was accepted because device priority is not less than 100 \n";
+	string negative = "This request was not accepted because device priority is less than 100 \n";
 
 	if (commandDevicePriority < 100) {
 
@@ -152,8 +153,8 @@ void AnotherTVExecutive::startApplication(string appName, int commandDevicePrior
 void AnotherTVExecutive::terminateApplication(string appName, int commandDevicePriority, string deviceName) {
 
 	string additional_info = "This TV Executive coordinates communication of objects in different way. If command device priority is less than 100 then the request of this device will not executed. \n";
-	string positive = "This request was accepted because device priority is not less than 20 \n";
-	string negative = "This request was not accepted because device priority is less than 20 \n";
+	string positive = "This request was accepted because device priority is not less than 100 \n";
+	string negative = "This request was not accepted because device priority is less than 100 \n";
 
 	if (commandDevicePriority < 100) {
 
@@ -168,8 +169,8 @@ void AnotherTVExecutive::terminateApplication(string appName, int commandDeviceP
 void AnotherTVExecutive::computeApplicationUsageTime(string appName, int commandDevicePriority, string deviceName) {
 
 	string additional_info = "This TV Executive coordinates communication of objects in different way. If command device priority is less than 100 then the request of this device will not executed. \n";
-	string positive = "This request was accepted because device priority is not less than 20 \n";
-	string negative = "This request was not accepted because device priority is less than 20 \n";
+	string positive = "This request was accepted because device priority is not less than 100 \n";
+	string negative = "This request was not accepted because device priority is less than 100 \n";
 
 	if (commandDevicePriority < 100) {
 		
@@ -226,8 +227,10 @@ public:
 	RemoteController(ApplicationManagementAndControlSystem* tvExecutive, int devicePriority, string deviceName) : CommandDevice(tvExecutive, devicePriority, deviceName) {}
 };
 
-
-
+class SmartHomeAutomationSystem : public CommandDevice {
+public:
+	SmartHomeAutomationSystem(ApplicationManagementAndControlSystem* tvExecutive, int devicePriority, string deviceName) : CommandDevice(tvExecutive, devicePriority, deviceName) {}
+};
 int main() {
 	ApplicationManagementAndControlSystem* applicationManagementAndControlSystem = new TVExecutive();
 
@@ -242,8 +245,8 @@ int main() {
 	applicationExecutionSystem->addApplication(application2);
 	applicationExecutionSystem->addApplication(application3);
 
-	CommandDevice* commandDevice = new CommandDevice(applicationManagementAndControlSystem, 100, "Command Device");
-	CommandDevice* remoteController = new RemoteController(applicationManagementAndControlSystem, 150, "Remote Controller");
+	CommandDevice* commandDevice = new SmartHomeAutomationSystem(applicationManagementAndControlSystem, 100, "Command Device");
+	CommandDevice* remoteController = new RemoteController(applicationManagementAndControlSystem, 15, "Remote Controller");
 
 	commandDevice->OpenApplication("Netflix");
 	remoteController->OpenApplication("Amazon Prime");
@@ -271,3 +274,4 @@ int main() {
 	commandDevice->CloseApplication("Netflix");
 	remoteController->DisplayApplicationUsageTime("Youtube");
 }
+
